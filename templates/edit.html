@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}编辑文章 - Flask Markdown博客{% endblock %}
+
+{% block content %}
+    <h2>编辑文章</h2>
+    <form method="post">
+        <div class="form-group">
+            <label for="title">标题</label>
+            <input type="text" id="title" name="title" value="{{ post.title }}" required>
+        </div>
+        <div class="form-group">
+            <label for="content">内容（支持Markdown）</label>
+            <textarea id="content" name="content" rows="15" required>{{ post.content }}</textarea>
+            <p class="help-text">支持Markdown语法，请参考<a href="https://www.markdownguide.org/basic-syntax/" target="_blank">Markdown基础语法</a></p>
+        </div>
+        <div class="form-group">
+            <label for="tags">标签</label>
+            <input type="text" id="tags" name="tags" value="{{ post.existing_tags }}" placeholder="输入标签，使用逗号或空格分隔">
+            <p class="help-text">多个标签可以用逗号、空格或换行分隔</p>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-submit">更新文章</button>
+            <a href="{{ url_for('post', post_id=post.id) }}" class="btn btn-cancel">取消</a>
+        </div>
+    </form>
+{% endblock %}

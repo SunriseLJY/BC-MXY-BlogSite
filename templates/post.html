@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} - Flask Markdown博客{% endblock %}
+
+{% block content %}
+    <article class="post">
+        <h2>{{ post.title }}</h2>
+        <div class="post-meta">
+            <time datetime="{{ post.created_at }}">{{ post.created_at }}</time>
+            {% if post.username %}
+                <span class="author">作者: {{ post.username }}</span>
+            {% endif %}
+            
+            <!-- 显示文章标签 -->
+            {% if post.tags %}
+                <div class="post-tags">
+                    {% for tag in post.tags %}
+                        <a href="/?tag={{ tag.name }}" class="tag-small">{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="post-content" markdown="1">{{ post.content_html|safe }}</div>
+        <div class="post-actions">
+            {% if post.is_author %}
+                <a href="{{ url_for('edit', post_id=post.id) }}" class="btn btn-edit">编辑</a>
+                <a href="#" class="btn btn-delete" onclick="confirmDelete({{ post.id }}); return false;">删除</a>
+            {% endif %}
+        </div>
+    </article>
+    
+    <script>
+    function confirmDelete(postId) {
+        if (confirm('确定要删除这篇文章吗？')) {
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = '/delete/' + postId;
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+    </script>
+{% endblock %}
