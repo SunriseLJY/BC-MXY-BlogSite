@@ -53,13 +53,6 @@ python app.py
 如果需要自行打包：
 
 ```bash
-pip install pyinstaller
-pyinstaller blog.spec
-```
-
-或者使用单行命令：
-
-```bash
 pyinstaller --onefile --add-data "templates;templates" --add-data "static;static" --hidden-import=markdown-it-py --hidden-import=flask app.py
 ```
 
@@ -107,21 +100,21 @@ pyinstaller --onefile --add-data "templates;templates" --add-data "static;static
 
 ## 📝 项目结构
 
-BC-MXY BlogSite Python Test/
-├── app.py # 主应用程序文件 
-├── blog.db # SQLite数据库文件 
-├── blog.log # 日志文件 
-├── static/ # 静态资源文件夹 
-│ └── css/ # CSS样式文件 
-├── templates/ # 模板文件 
-│ ├── base.html # 基础模板 
-│ ├── index.html # 首页 
-│ ├── post.html # 文章详情页 
-│ ├── create.html # 创建文章页
-│ ├── edit.html # 编辑文章页 
-│ ├── login.html # 登录页 
-│ ├── register.html # 注册页
-| |── about.html # 关于页面 
+BC-MXY BlogSite Python Test/  
+├── app.py # 主应用程序文件   
+├── blog.db # SQLite数据库文件   
+├── blog.log # 日志文件   
+├── static/ # 静态资源文件夹   
+│ └── css/ # CSS样式文件   
+├── templates/ # 模板文件   
+│ ├── base.html # 基础模板   
+│ ├── index.html # 首页   
+│ ├── post.html # 文章详情页   
+│ ├── create.html # 创建文章页  
+│ ├── edit.html # 编辑文章页   
+│ ├── login.html # 登录页   
+│ ├── register.html # 注册页  
+| └── about.html # 关于页面   
 
 ## 🔧 常见问题
 
