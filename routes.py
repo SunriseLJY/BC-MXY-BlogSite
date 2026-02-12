@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, send_from_directory
 from utils import *
 import os
 import sys
@@ -351,6 +351,26 @@ def delete(post_id):
         flash('文章删除失败: ' + str(e))
     
     return redirect(url_for('index'))
+
+@app.route('/download/<int:post_id>')
+def download(post_id):
+    from utils import BLOG_STORAGE_PATH
+    from flask import send_from_directory
+    import os
+    
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    # 构建.md文件路径
+    md_filename = f'{post_id}.md'
+    md_filepath = os.path.join(BLOG_STORAGE_PATH, md_filename)
+    
+    # 检查文件是否存在
+    if os.path.exists(md_filepath):
+        return send_from_directory(BLOG_STORAGE_PATH, md_filename, as_attachment=True)
+    else:
+        flash('文件不存在')
+        return redirect(url_for('index'))
 
 # 添加在上下文处理器之前
 @app.template_filter('first_five_lines')
