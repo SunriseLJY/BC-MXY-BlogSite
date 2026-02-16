@@ -44,8 +44,6 @@ pip install flask markdown-it-py werkzeug
 python app.py
 ```
 
-应用将在 http://localhost:5000 启动
-
 ### 方法二：使用打包的EXE文件
 
 #### 1. 打包应用（可选）
