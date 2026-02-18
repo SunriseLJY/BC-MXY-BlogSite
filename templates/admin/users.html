@@ -1,0 +1,203 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+{% set title = '用户管理' %}
+
+<div class="card">
+    <div class="card-header bg-white border-bottom">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0 font-weight-semibold">用户列表</h5>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户名</th>
+                        <th>邮箱</th>
+                        <th>注册时间</th>
+                        <th>角色</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr class="user-row">
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.created_at }}</td>
+                        <td>
+                            {% if user.is_admin == 1 %}
+                            <span class="badge badge-admin">管理员</span>
+                            {% else %}
+                            <span class="badge badge-user">普通用户</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="{{ url_for('admin_edit_user', user_id=user.id) }}" class="btn btn-edit btn-sm">
+                                    编辑
+                                </a>
+                                {% if user.id != session.user_id %}
+                                <form action="{{ url_for('admin_delete_user', user_id=user.id) }}" method="post" style="display: inline;">
+                                    <button type="submit" class="btn btn-delete btn-sm" onclick="return confirm('确定要删除这个用户吗？');">
+                                        删除
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* 表格样式 */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 0;
+    }
+    
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+        transform: translateY(-1px);
+        transition: all 0.2s ease;
+    }
+    
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.01);
+    }
+    
+    .table th,
+    .table td {
+        padding: 12px 16px;
+        text-align: left;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        color: #495057;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .table-responsive {
+        overflow-x: auto;
+        border-radius: 8px;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* 徽章样式 */
+    .badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .badge-admin {
+        background-color: #4facfe;
+        color: white;
+    }
+    
+    .badge-user {
+        background-color: #667eea;
+        color: white;
+    }
+    
+    /* 按钮组样式 */
+    .btn-group {
+        display: flex;
+        gap: 4px;
+    }
+    
+    /* 按钮样式 */
+    .btn {
+        display: inline-block;
+        padding: 6px 12px;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+    
+    .btn-sm {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+    
+    .btn-edit {
+        background-color: #4facfe;
+        color: white;
+        border-color: #4facfe;
+    }
+    
+    .btn-edit:hover {
+        background-color: #3a96e8;
+        border-color: #3a96e8;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
+    }
+    
+    .btn-delete {
+        background-color: #f5576c;
+        color: white;
+        border-color: #f5576c;
+    }
+    
+    .btn-delete:hover {
+        background-color: #e0455c;
+        border-color: #e0455c;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(245, 87, 108, 0.3);
+    }
+    
+    /* 表格行动画 */
+    .user-row {
+        transition: all 0.3s ease;
+    }
+    
+    .user-row:hover {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .table th,
+        .table td {
+            padding: 8px 12px;
+        }
+        
+        .btn-group {
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+{% endblock %}

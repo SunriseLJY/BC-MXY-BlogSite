@@ -1,0 +1,340 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+{% set title = '首页' %}
+
+<div class="row mb-6">
+    <div class="col-md-4 mb-4">
+        <div class="card bg-gradient-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title text-white-800">文章总数</h5>
+                        <p class="card-text display-4 font-weight-bold">{{ total_posts }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-primary-footer text-white">
+                <a href="{{ url_for('admin_posts') }}" class="text-white text-decoration-none d-flex justify-content-between align-items-center">
+                    <span>查看详情</span>
+                    <span class="icon icon-arrow-right"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card bg-gradient-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title text-white-800">用户总数</h5>
+                        <p class="card-text display-4 font-weight-bold">{{ total_users }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-success-footer text-white">
+                <a href="{{ url_for('admin_users') }}" class="text-white text-decoration-none d-flex justify-content-between align-items-center">
+                    <span>查看详情</span>
+                    <span class="icon icon-arrow-right"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card bg-gradient-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title text-white-800">系统状态</h5>
+                        <p class="card-text display-4 font-weight-bold">正常</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-info-footer text-white">
+                <a href="{{ url_for('index') }}" class="text-white text-decoration-none d-flex justify-content-between align-items-center">
+                    <span>访问前台</span>
+                    <span class="icon icon-arrow-right"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-white border-bottom">
+                <h3 class="card-title mb-0 font-weight-semibold">管理快捷入口</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-4">
+                        <a href="{{ url_for('admin_posts') }}" class="text-decoration-none">
+                            <div class="card bg-white border border-light shadow-sm hover-shadow transition-all duration-300">
+                                <div class="card-body text-center">
+                                    <h4 class="card-title text-dark">文章管理</h6>
+                                    <p class="card-text text-gray-500 text-sm">查看和管理所有文章</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-3 mb-4">
+                        <a href="{{ url_for('admin_users') }}" class="text-decoration-none">
+                            <div class="card bg-white border border-light shadow-sm hover-shadow transition-all duration-300">
+                                <div class="card-body text-center">
+                                    <h4 class="card-title text-dark">用户管理</h6>
+                                    <p class="card-text text-gray-500 text-sm">查看和管理用户账户</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-3 mb-4">
+                        <a href="{{ url_for('create') }}" class="text-decoration-none">
+                            <div class="card bg-white border border-light shadow-sm hover-shadow transition-all duration-300">
+                                <div class="card-body text-center">
+                                    <h4 class="card-title text-dark">创建文章</h6>
+                                    <p class="card-text text-gray-500 text-sm">发布新的博客文章</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-3 mb-4">
+                        <a href="{{ url_for('index') }}" class="text-decoration-none">
+                            <div class="card bg-white border border-light shadow-sm hover-shadow transition-all duration-300">
+                                <div class="card-body text-center">
+                                    <h4 class="card-title text-dark">查看前台</h6>
+                                    <p class="card-text text-gray-500 text-sm">访问网站前台页面</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* 卡片颜色样式 */
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .bg-primary-footer {
+        background: linear-gradient(135deg, #5a6fd8 0%, #6a428f 100%);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .bg-success-footer {
+        background: linear-gradient(135deg, #e67ef0 0%, #e0455c 100%);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .bg-gradient-info {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .bg-info-footer {
+        background: linear-gradient(135deg, #4397e6 0%, #00d5e6 100%);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    } 
+    
+    .justify-center {
+        justify-content: center;
+    }
+
+    /* 栅格系统 */
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+    
+    .col-md-3,
+    .col-md-4,
+    .col-md-12 {
+        position: relative;
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+    
+    .col-md-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    
+    .col-md-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    
+    .col-md-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    /* 间距类 */
+    .mb-4 {
+        margin-bottom: 1.5rem;
+    }
+    
+    .mb-6 {
+        margin-bottom: 2.5rem;
+    }
+    
+    /* 卡片样式 */
+    .hover-shadow:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+        transform: translateY(-2px);
+    }
+    
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    
+    .duration-300 {
+        transition-duration: 300ms;
+    }
+    
+    /* 文本样式 */
+    .text-white-800 {
+        color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .text-dark {
+        color: #343a40;
+    }
+    
+    .text-gray-500 {
+        color: #6c757d;
+    }
+
+    .card-body.text-center{
+        height: 100px;
+    }
+    
+    /* 字体样式 */
+    .font-weight-bold {
+        font-weight: 700;
+    }
+    
+    .font-weight-semibold {
+        font-weight: 600;
+    }
+    
+    .text-sm {
+        font-size: 0.875rem;
+    }
+    
+    .display-4 {
+        font-size: 2.5rem;
+        font-weight: 300;
+        line-height: 1.2;
+    }
+    
+    /* 布局工具类 */
+    .flex {
+        display: flex;
+    }
+    
+    .items-center {
+        align-items: center;
+    }
+    
+    .justify-center {
+        justify-content: center;
+    }
+    
+    .justify-content-between {
+        justify-content: space-between;
+    }
+    
+    .text-center {
+        text-align: center;
+    }
+    
+    .text-decoration-none {
+        text-decoration: none;
+    }
+    
+    /* 背景和边框 */
+    .bg-white {
+        background-color: white;
+    }
+    
+    .bg-primary {
+        background-color: #007bff;
+    }
+    
+    .bg-success {
+        background-color: #28a745;
+    }
+    
+    .bg-info {
+        background-color: #17a2b8;
+    }
+    
+    .bg-opacity-10 {
+        opacity: 0.1;
+    }
+    
+    .bg-opacity-20 {
+        opacity: 0.2;
+    }
+    
+    .border {
+        border: 1px solid #dee2e6;
+    }
+    
+    .border-light {
+        border-color: #f8f9fa;
+    }
+    
+    .border-bottom {
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    /* 尺寸 */
+    .w-16 {
+        width: 4rem;
+    }
+    
+    .h-16 {
+        height: 4rem;
+    }
+    
+    .rounded-full {
+        border-radius: 50%;
+    }
+
+    /* 图标样式 */
+    .icon-arrow-right {
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z'/%3E%3C/svg%3E");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .col-md-3,
+        .col-md-4 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+</style>
+
+{% endblock %}

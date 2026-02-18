@@ -1,0 +1,201 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+{% set title = '编辑用户' %}
+
+<div class="card">
+    <div class="card-header bg-white border-bottom">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0 font-weight-semibold">编辑用户 - {{ user.username }}</h5>
+            <a href="{{ url_for('admin_users') }}" class="btn btn-back">
+                返回列表
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <form method="POST" class="user-form">
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" readonly>
+                <small class="form-text text-muted">用户名不可修改</small>
+            </div>
+            <div class="form-group">
+                <label for="email">邮箱</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" readonly>
+                <small class="form-text text-muted">邮箱不可修改</small>
+            </div>
+            <div class="form-group">
+                <label for="is_admin">角色</label>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="is_admin" name="is_admin" {% if user.is_admin == 1 %}checked{% endif %}>
+                    <label class="form-check-label" for="is_admin">设为管理员</label>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-save">
+                    保存修改
+                </button>
+                <a href="{{ url_for('admin_users') }}" class="btn btn-cancel">
+                    取消
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* 表单样式 */
+    .user-form {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .form-group {
+        margin-bottom: 24px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #495057;
+        font-size: 14px;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #007bff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    
+    .form-control[readonly] {
+        background-color: #e9ecef;
+        opacity: 1;
+    }
+    
+    /* 复选框样式 */
+    .form-check {
+        position: relative;
+        display: block;
+        padding-left: 24px;
+    }
+    
+    .form-check-input {
+        position: absolute;
+        margin-top: 4px;
+        margin-left: -24px;
+    }
+    
+    .form-check-label {
+        margin-bottom: 0;
+        cursor: pointer;
+    }
+    
+    /* 表单文本 */
+    .form-text {
+        display: block;
+        margin-top: 4px;
+        font-size: 12px;
+        color: #6c757d;
+    }
+    
+    /* 按钮样式 */
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+    
+    .btn-save {
+        background-color: #28a745;
+        color: white;
+        border-color: #28a745;
+    }
+    
+    .btn-save:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    }
+    
+    .btn-cancel {
+        background-color: #6c757d;
+        color: white;
+        border-color: #6c757d;
+    }
+    
+    .btn-cancel:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+    }
+    
+    .btn-back {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+    
+    .btn-back:hover {
+        background-color: #0069d9;
+        border-color: #0062cc;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+    }
+    
+    /* 表单操作区 */
+    .form-actions {
+        margin-top: 32px;
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .form-actions {
+            flex-direction: column;
+        }
+        
+        .btn {
+            width: 100%;
+        }
+        
+        .card-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .btn-back {
+            width: 100%;
+        }
+    }
+</style>
+
+{% endblock %}

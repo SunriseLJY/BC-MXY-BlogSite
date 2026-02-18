@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理 - 博客系统</title>
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        /* 侧边栏样式 */
+        .sidebar {
+            min-height: 100vh;
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .sidebar .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #495057;
+        }
+        
+        .sidebar .sidebar-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .sidebar .sidebar-header p {
+            font-size: 14px;
+            color: #adb5bd;
+        }
+        
+        .sidebar nav {
+            padding: 10px 0;
+        }
+        
+        .sidebar nav a {
+            color: #adb5bd;
+            text-decoration: none;
+            display: block;
+            padding: 12px 20px;
+            transition: all 0.3s ease;
+            font-size: 15px;
+        }
+        
+        .sidebar nav a:hover {
+            color: white;
+            background-color: #495057;
+        }
+        
+        .sidebar nav a.active {
+            color: white;
+            background-color: #007bff;
+        }
+        
+        .sidebar nav a i {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        
+        /* 主内容区样式 */
+        .content {
+            margin-left: 250px;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #343a40;
+        }
+        
+        /* 主要内容区域 */
+        .main {
+            padding: 20px;
+        }
+        
+        /* 卡片样式 */
+        .card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .card-footer {
+            padding: 16px 24px;
+            transition: background-color 0.3s ease;
+        }
+
+        .card-footer a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .card-header {
+            padding: 16px 24px;
+            background-color: #f1f3f5;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.5;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .btn-outline-secondary {
+            color: #6c757d;
+            border-color: #6c757d;
+            background-color: transparent;
+        }
+        
+        .btn-outline-secondary:hover {
+            color: white;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        
+        .btn-outline-primary {
+            color: #007bff;
+            border-color: #007bff;
+            background-color: transparent;
+        }
+        
+        .btn-outline-primary:hover {
+            color: white;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        
+        /* 消息提示样式 */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            border: 1px solid transparent;
+        }
+        
+        .alert-info {
+            color: #0c5460;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+        
+        .alert-dismissible {
+            position: relative;
+            padding-right: 35px;
+        }
+        
+        .btn-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .btn-close:hover {
+            color: #343a40;
+        }
+        
+        /* 工具类 */
+        .d-flex {
+            display: flex;
+        }
+        
+        .align-items-center {
+            align-items: center;
+        }
+        
+        .d-md-none {
+            display: none;
+        }
+        
+        .me-2 {
+            margin-right: 8px;
+        }
+        
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+        
+        .p-4 {
+            padding: 16px;
+        }
+        
+        .border-bottom {
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .border-gray-700 {
+            border-color: #495057;
+        }
+        
+        .text-white {
+            color: white;
+        }
+        
+        .text-sm {
+            font-size: 14px;
+        }
+        
+        .text-gray-400 {
+            color: #adb5bd;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 0;
+                overflow: hidden;
+            }
+            
+            .sidebar.active {
+                width: 250px;
+            }
+            
+            .content {
+                margin-left: 0;
+            }
+            
+            .d-md-none {
+                display: inline-block;
+            }
+            
+            .header {
+                padding: 16px;
+            }
+            
+            .header h2 {
+                font-size: 18px;
+            }
+            
+            .main {
+                padding: 16px;
+            }
+        }
+        
+        /* 图标样式（使用纯CSS实现简单图标） */
+        .icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-right: 10px;
+        }
+        
+        .icon-home {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z'/%3E%3C/svg%3E");
+        }
+        
+        .icon-users {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'/%3E%3Cpath fill-rule='evenodd' d='M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z'/%3E%3Cpath d='M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z'/%3E%3C/svg%3E");
+        }
+        
+        .icon-file {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z'/%3E%3C/svg%3E");
+        }
+        
+        .icon-logout {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M15 8a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0 0 1h9a.5.5 0 0 0 .5-.5zm-6.7.207l2.147-2.146a.5.5 0 0 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L8.3 8.707z'/%3E%3Cpath fill-rule='evenodd' d='M1.5 8a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H1.5z'/%3E%3C/svg%3E");
+        }
+        
+        .icon-eye {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z'/%3E%3Cpath d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/%3E%3C/svg%3E");
+        }
+        
+        .icon-list {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>后台管理</h3>
+            <p>欢迎，{{ session.username }}</p>
+        </div>
+        <nav>
+            <a href="{{ url_for('admin_index') }}" class="{{ 'active' if request.endpoint == 'admin_index' else '' }}">
+                <span class="icon icon-home"></span>首页
+            </a>
+            <a href="{{ url_for('admin_users') }}" class="{{ 'active' if request.endpoint == 'admin_users' else '' }}">
+                <span class="icon icon-users"></span>用户管理
+            </a>
+            <a href="{{ url_for('admin_posts') }}" class="{{ 'active' if request.endpoint == 'admin_posts' else '' }}">
+                <span class="icon icon-file"></span>文章管理
+            </a>
+            <a href="{{ url_for('admin_logout') }}">
+                <span class="icon icon-logout"></span>退出登录
+            </a>
+        </nav>
+    </div>
+    
+    <div class="content">
+        <div class="header">
+            <button class="btn btn-outline-secondary d-md-none" id="toggle-sidebar">
+                <span class="icon icon-list"></span>
+            </button>
+            <h2>{{ title or '后台管理' }}</h2>
+            <div>
+                <a href="{{ url_for('index') }}" class="btn btn-outline-primary me-2">
+                    查看前台
+                </a>
+            </div>
+        </div>
+        
+        <div class="main">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-info">
+                            {{ message }}
+                            <button type="button" class="btn-close" onclick="this.parentElement.style.display='none';"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('toggle-sidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
